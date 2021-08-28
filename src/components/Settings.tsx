@@ -77,7 +77,7 @@ const Settings = () => {
 				/>
 			</div>
 			<div>
-				<h2>Sites sites</h2>
+				<h2>Target sites</h2>
 				<UrlMatchList />
 			</div>
 			<div>

@@ -3,32 +3,42 @@ import type { SettingsState, IUrlMatch } from './store/types'
 
 
 const isTargetSite = (location: Location, matches: IUrlMatch[]): boolean => {
-    if (!matches.length) {
-        return true
-    }
+    const result = matches
+        .concat([{ type: 'URL', condition: 'StartsWith', value: '' }]) // Matches all URLs
+        .reduce((acc, { type, condition, value }) => {
+            const target = type === 'Domain' ? location.hostname : location.href
+            switch (condition) {
+                case 'Equals': {
+                    return {
+                        ...acc,
+                        include: acc.include || target === value
+                    }
+                }
+                case "StartsWith": {
+                    return {
+                        ...acc,
+                        include: acc.include || target.startsWith(value)
+                    }
+                }
+                case 'NotEqual': {
+                    return {
+                        ...acc,
+                        exclude: acc.exclude && target !== value
+                    }
+                }
+                case "NotStartWith": {
+                    return {
+                        ...acc,
+                        exclude: acc.exclude && !target.startsWith(value)
+                    }
+                }
+                default: {
+                    return acc
+                }
+            }
+        }, { exclude: true, include: false })
 
-    const result = matches.reduce((acc, { type, condition, value }): boolean => {
-        const target = type === 'Domain' ? location.hostname : location.href
-        switch (condition) {
-            case 'Equals': {
-                return acc || target === value
-            }
-            case 'NotEqual': {
-                return acc || target !== value
-            }
-            case 'StartsWith': {
-                return acc || target.startsWith(value)
-            }
-            case 'NotStartWith': {
-                return acc || !target.startsWith(value)
-            }
-            default: {
-                return acc
-            }
-        }
-    }, false)
-
-    return result
+    return result.exclude && result.include
 }
 
 window.addEventListener('load', () => {
@@ -48,7 +58,6 @@ window.addEventListener('load', () => {
         }
 
         const selector = settings.tags.join(',')
-
         setColorStyle(muteWords, selector, color)
     })
 })

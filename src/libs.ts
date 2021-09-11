@@ -3,9 +3,9 @@ const getInnerText = (node: Element) => Array.from(node.childNodes)
     .reduce((acc, n) => acc += n.nodeValue, '')
 
 const shouldMute = (muteWords: string[], excludeWords: string[], node: Element)	=> {
-    var isExcluded = excludeWords.some(word => getInnerText(node).includes(word))
-    var isMuted = muteWords.some(word => getInnerText(node).includes(word))
-    return !isExcluded && isMuted
+    var mutes = muteWords.filter(word => getInnerText(node).includes(word))
+    var excludes = excludeWords.filter(word => getInnerText(node).includes(word))
+    return mutes.length > 0 && excludes.length === 0
 }
 
 export const setColorStyle = (muteWords: string[], excludeWords: string[], selector: string, color: string) => {

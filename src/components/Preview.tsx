@@ -21,7 +21,7 @@ const Preview = () => {
 			}
 		)
 
-		setColorStyle(words, tags.map(tag => '.preview ' + tag).join(','), color)
+		setColorStyle(words, [], tags.map(tag => '.preview ' + tag).join(','), color)
 	}, [color, tags, words])
 
 	return (

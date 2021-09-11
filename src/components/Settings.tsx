@@ -8,6 +8,7 @@ import AutoComplete from '@material-ui/lab/Autocomplete'
 import { HideableTags } from '../const'
 import {
     addMuteWordAction, deleteMuteWordAction,
+	addExcludeWordAction, deleteExcludeWordAction,
     updateColorAction, updateHtmlTagsAction,
 	restoreSettingsAction
 } from '../store/actions'
@@ -42,14 +43,12 @@ const Settings = () => {
 					onAdd={(word) => dispatch(addMuteWordAction(word))}
 					onDelete={(word) => dispatch(deleteMuteWordAction(word))}
 				/>
-				{/* No supported now
 				<WordList
 				    label="Exclude words"
 					list={excludeWords}
 					onAdd={(word) => dispatch(addExcludeWordAction(word))}
 					onDelete={(word) => dispatch(deleteExcludeWordAction(word))}
 				/>
-				*/}
 			</div>
 			<div>
 				<h2>HTML tags</h2>

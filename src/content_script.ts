@@ -57,8 +57,8 @@ window.addEventListener('load', () => {
             return
         }
 
-        const selector = settings.tags.join(',')
-        setColorStyle(muteWords, selector, color)
+        const selector = tags.join(',')
+        setColorStyle(muteWords, excludeWords, selector, color)
     })
 })
 

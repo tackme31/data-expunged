@@ -3,5 +3,5 @@ export const HideableTags = [
 ]
 
 export const BlockLevelTags = [
-	'DIV', 'BLOCKQUOTE', 'P', 'UL', 'OL'
+	'DIV', 'BLOCKQUOTE', 'P', 'UL', 'OL', 'TD'
 ]

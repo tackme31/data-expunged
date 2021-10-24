@@ -37,15 +37,6 @@ export const deleteExcludeWordAction = (word: string): SettingsActionTypes => {
     }
 }
 
-export const updateColorAction = (color: string): SettingsActionTypes => {
-    return {
-        type: ActionTypes.updateColor,
-        payload: {
-            color: color
-        }
-    }
-}
-
 export const updateUrlMatchAction = (match: IUrlMatch, index: number): SettingsActionTypes => {
     return {
         type: ActionTypes.updateUrlMatch,

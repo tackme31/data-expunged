@@ -12,7 +12,6 @@ export interface IUrlMatch {
 export type SettingsState = {
     muteWords: string[]
     excludeWords: string[]
-    color: string
     urlMatches: IUrlMatch[]
     tags: string[]
 }
@@ -42,13 +41,6 @@ interface IDeleteExcludeWordAction extends Action {
     type: typeof ActionTypes.deleteExcludedWord
     payload: {
         word: string
-    }
-}
-
-interface IUpdateColorAction extends Action {
-    type: typeof ActionTypes.updateColor
-    payload: {
-        color: string
     }
 }
 
@@ -91,7 +83,6 @@ export type SettingsActionTypes =
     | IDeleteMuteWordAction
     | IAddExcludeWordAction
     | IDeleteExcludeWordAction
-    | IUpdateColorAction
     | IUpdateUrlMatchAction
     | IAddNewUrlMatchAction
     | IDeleteUrlMatchAction

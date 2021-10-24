@@ -1,5 +1,5 @@
 # [DATA EXPUNGED]
-█████████████ is a chrome extension to hide text like SCP format.
+█████████████ is a Google Chrome extension to hide text like SCP format.
 
 
 DEMO:

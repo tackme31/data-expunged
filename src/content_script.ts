@@ -1,4 +1,4 @@
-import { setColorStyle, isOptionPage, } from './libs'
+import { blackout, isOptionPage, } from './libs'
 import type { SettingsState, IUrlMatch } from './store/types'
 
 
@@ -52,13 +52,13 @@ window.addEventListener('load', () => {
             return
         }
 
-        const { muteWords, excludeWords, color, tags, urlMatches } = settings as SettingsState
+        const { muteWords, excludeWords, tags, urlMatches } = settings as SettingsState
         if (!isTargetSite(window.location, urlMatches.filter(match => match.value))){
             return
         }
 
         const selector = tags.join(',')
-        setColorStyle(muteWords, excludeWords, selector, color)
+        blackout(muteWords, excludeWords, selector)
     })
 })
 

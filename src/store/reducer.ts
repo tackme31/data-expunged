@@ -5,7 +5,6 @@ import { HideableTags } from '../const'
 const initialState: SettingsState = {
     muteWords: [],
     excludeWords: [],
-    color: '#b0b0b0',
     urlMatches: [],
     tags: [...HideableTags]
 }
@@ -34,12 +33,6 @@ export const settingsReducer = (state = initialState, action: SettingsActionType
             return {
                 ...state,
                 excludeWords: state.excludeWords.filter(w => w !== action.payload.word)
-            }
-        }
-        case ActionTypes.updateColor: {
-            return {
-                ...state,
-                color: action.payload.color
             }
         }
         case ActionTypes.updateUrlMatch: {

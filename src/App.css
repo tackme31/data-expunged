@@ -1,11 +1,9 @@
 .App {
   margin: auto;
   margin-top: 5vmin;
-  max-width: 85%;
-  display: flex;
+  max-width: 50%;
 }
 
-.App > .left, .App > .right {
-  width: 50%;
-  padding: 0 1rem;
+h2 {
+  margin-top: 50px;
 }

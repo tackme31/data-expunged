@@ -1,0 +1,11 @@
+{
+  "Name": {
+    "message": "[DATA EXPUNGED]"
+  },
+  "Description": {
+    "message": "A Google Chrome extension to hide text like SCP format."
+  },  
+  "data_expunged": {
+      "message": "DATA EXPUNGED"
+  }
+}

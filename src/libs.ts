@@ -17,7 +17,8 @@ export const blackout = (muteWords: string[], excludeWords: string[], selector: 
         .filter((node) => shouldMute(muteWords, excludeWords, node)) 
         .forEach((node) => {
             if (BlockLevelTags.includes(node.tagName)) {
-                node.outerHTML = '<span><b>[DATA EXPUNGED]</b></span>'
+                const text = chrome.i18n.getMessage('data_expunged')
+                node.outerHTML = `<span><b>[${text}]</b></span>`
             } else {
                 const blackout = '█'.repeat(node.innerHTML.length)
                 node.outerHTML = `<span>${blackout}</span>`

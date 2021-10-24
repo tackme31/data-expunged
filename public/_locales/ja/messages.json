@@ -1,0 +1,11 @@
+{
+  "Name": {
+    "message": "[データ削除済み]"
+  },
+  "Description": {
+    "message": "指定したキーワードをSCPの報告書風に隠すChrome拡張機能です。"
+  },  
+  "data_expunged": {
+      "message": "データ削除済み"
+  }
+}

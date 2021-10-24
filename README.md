@@ -6,6 +6,9 @@ DEMO:
 
 ![](./img/demo.png)
 
+## Settings
+![](./img/settings.png)
+
 ## Installation
 This extension is not yet available on Chrome Web Store. To installation, build this project and load as a unpacked extension.
 

@@ -1,7 +1,10 @@
-# Hide Muted Words
-Hide Muted Words is a chrome extension to hide text that contains specified words.
+# [DATA EXPUNGED]
+█████████████ is a chrome extension to hide text like SCP format.
 
-![](./img/demo.gif)
+
+DEMO:
+
+![](./img/demo.png)
 
 ## Installation
 This extension is not yet available on Chrome Web Store. To installation, build this project and load as a unpacked extension.

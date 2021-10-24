@@ -1,3 +1,6 @@
+import { BlockLevelTags } from './const'
+
+
 const getInnerText = (node: Element) => Array.from(node.childNodes)
     .filter(n => n.nodeType === Node.TEXT_NODE)
     .reduce((acc, n) => acc += n.nodeValue, '')
@@ -14,8 +17,12 @@ export const setColorStyle = (muteWords: string[], excludeWords: string[], selec
         .map((node) => node as HTMLElement)
         .filter((node) => shouldMute(muteWords, excludeWords, node)) 
         .forEach((node) => {
-            node.style.color = color
-            node.style.backgroundColor = color
+            if (BlockLevelTags.includes(node.tagName)) {
+                node.outerHTML = '<span><b>[DATA EXPUNGED]</b></span>'
+            } else {
+                const blackout = '█'.repeat(node.innerHTML.length)
+                node.outerHTML = `<span>${blackout}</span>`
+            }
         }
     )
 }

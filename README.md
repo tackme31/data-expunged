@@ -1,13 +1,13 @@
 # [DATA EXPUNGED]
-█████████████ is a Google Chrome extension to hide text like SCP format.
+[DATA EXPUNGED] is a Google Chrome extension to hide text like SCP format.
 
 
-DEMO:
+Example:
 
-![](./img/demo.png)
+![](./img/example.png)
 
-## Settings
-![](./img/settings.png)
+## Options
+![](./img/options.png)
 
 ## Installation
 This extension is not yet available on Chrome Web Store. To installation, build this project and load as a unpacked extension.

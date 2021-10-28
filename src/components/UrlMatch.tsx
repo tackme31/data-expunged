@@ -51,8 +51,8 @@ const UrlMatch = ({ match, onChange }: IProps) => {
           className={classes.type}
           onChange={(e) => onChange && onChange({...match, type: e.target.value as TargetType})}
         >
-          <MenuItem value={'Domain'}>Domain</MenuItem>
-          <MenuItem value={'URL'}>URL</MenuItem>
+          <MenuItem value={'Domain'}>{chrome.i18n.getMessage('domain')}</MenuItem>
+          <MenuItem value={'URL'}>{chrome.i18n.getMessage('url')}</MenuItem>
         </Select>
       </FormControl>
       <FormControl className={classes.margin}>
@@ -61,10 +61,10 @@ const UrlMatch = ({ match, onChange }: IProps) => {
           className={classes.condition}
           onChange={(e) => onChange && onChange({...match, condition: e.target.value as TargetCondition})}
         >
-          <option value={'Equals'}>is equal to</option>
-          <option value={'NotEqual'}>is not equal to</option>
-          <option value={'StartsWith'}>starts with</option>
-          <option value={'NotStartWith'}>does not start with</option>
+          <option value={'Equals'}>{chrome.i18n.getMessage('is_equal_to')}</option>
+          <option value={'NotEqual'}>{chrome.i18n.getMessage('is_not_equal_to')}</option>
+          <option value={'StartsWith'}>{chrome.i18n.getMessage('starts_with')}</option>
+          <option value={'NotStartWith'}>{chrome.i18n.getMessage('does_not_starts_with')}</option>
         </NativeSelect>
       </FormControl>
 			<FormControl>

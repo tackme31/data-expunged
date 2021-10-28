@@ -7,5 +7,44 @@
   },  
   "data_expunged": {
       "message": "データ削除済み"
+  },
+  "target_words": {
+    "message": "単語"
+  },
+  "words_to_hide": {
+    "message": "削除する単語"
+  },
+  "words_to_exclude": {
+    "message": "除外する単語"
+  },
+  "target_tags": {
+    "message": "HTMLタグ"
+  },
+  "target_sites": {
+    "message": "サイト"
+  },
+  "is_equal_to": {
+    "message": "一致する"
+  },
+  "is_not_equal_to": {
+    "message": "一致しない"
+  },
+  "starts_with": {
+    "message": "前方一致する"
+  },
+  "does_not_starts_with": {
+    "message": "前方一致しない"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "saved_text": {
+    "message": "保存しました。"
+  },
+  "url": {
+    "message": "URL"
+  },
+  "domain": {
+    "message": "ドメイン"
   }
 }

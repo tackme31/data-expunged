@@ -7,5 +7,44 @@
   },  
   "data_expunged": {
       "message": "DATA EXPUNGED"
+  },
+  "target_words": {
+    "message": "Target words"
+  },
+  "words_to_hide": {
+    "message": "Words to hide"
+  },
+  "words_to_exclude": {
+    "message": "Words to exclude"
+  },
+  "target_tags": {
+    "message": "Target tags"
+  },
+  "target_sites": {
+    "message": "Target sites"
+  },
+  "is_equal_to": {
+    "message": "is equal to"
+  },
+  "is_not_equal_to": {
+    "message": "is not equal to"
+  },
+  "starts_with": {
+    "message": "starts with"
+  },
+  "does_not_starts_with": {
+    "message": "does not starts with"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "saved_text": {
+    "message": "Settings have been saved."
+  },
+  "url": {
+    "message": "URL"
+  },
+  "domain": {
+    "message": "Domain"
   }
 }

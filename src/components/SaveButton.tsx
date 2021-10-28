@@ -32,7 +32,7 @@ const SaveButton = () => {
                 startIcon={<SaveIcon />}
                 onClick={handleOnSave}
             >
-                Save
+                {chrome.i18n.getMessage('save')}
             </Button>
             <Snackbar
                 anchorOrigin={{
@@ -42,7 +42,7 @@ const SaveButton = () => {
                 open={open}
                 autoHideDuration={6000}
                 onClose={handleClose}
-                message="Settings have been saved."
+                message={chrome.i18n.getMessage('saved_text')}
             />
         </>
     )

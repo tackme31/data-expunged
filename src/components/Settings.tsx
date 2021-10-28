@@ -33,22 +33,22 @@ const Settings = () => {
 	return (
 		<>
 			<div>
-				<h2>Hide words</h2>
+				<h2>{chrome.i18n.getMessage('target_words')}</h2>
 				<WordList 
-				  	label="Words to hide"
+				  label={chrome.i18n.getMessage('words_to_hide')}
 					list={muteWords}
 					onAdd={(word) => dispatch(addMuteWordAction(word))}
 					onDelete={(word) => dispatch(deleteMuteWordAction(word))}
 				/>
 				<WordList
-				    label="Exclude words"
+				  label={chrome.i18n.getMessage('words_to_exclude')}
 					list={excludeWords}
 					onAdd={(word) => dispatch(addExcludeWordAction(word))}
 					onDelete={(word) => dispatch(deleteExcludeWordAction(word))}
 				/>
 			</div>
 			<div>
-				<h2>Target tags</h2>
+				<h2>{chrome.i18n.getMessage('target_tags')}</h2>
 				<AutoComplete
 					defaultValue={tags}
 					options={HideableTags}
@@ -64,7 +64,7 @@ const Settings = () => {
 				/>
 			</div>
 			<div>
-				<h2>Target sites</h2>
+				<h2>{chrome.i18n.getMessage('target_sites')}</h2>
 				<UrlMatchList />
 			</div>
 			<div>

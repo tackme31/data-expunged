@@ -1,4 +1,4 @@
-import { BlockLevelTags } from './const'
+import { ExpungedTags } from './const'
 
 const getInnerText = (node: Element) => Array.from(node.childNodes)
     .filter(n => n.nodeType === Node.TEXT_NODE)
@@ -16,13 +16,20 @@ export const blackout = (muteWords: string[], excludeWords: string[], selector: 
         .map((node) => node as HTMLElement)
         .filter((node) => shouldMute(muteWords, excludeWords, node)) 
         .forEach((node) => {
-            if (BlockLevelTags.includes(node.tagName)) {
+            if (ExpungedTags.includes(node.tagName)) {
                 const text = chrome.i18n.getMessage('data_expunged')
                 node.outerHTML = `<${node.tagName}><b>[${text}]</b></${node.tagName}>`
-            } else {
-                const blackout = '█'.repeat(node.innerHTML.length)
-                node.outerHTML = `<span>${blackout}</span>`
+                return;
             }
+
+            const black = '█'.repeat(node.innerHTML.length)
+            if (node.tagName === 'A') {
+                node.style.color = 'unset'
+                node.innerHTML = black
+                return;
+            }
+
+            node.outerHTML = `<span>${black}</span>`
         }
     )
 }

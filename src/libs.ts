@@ -22,7 +22,7 @@ export const blackout = (muteWords: string[], excludeWords: string[], selector: 
                 return;
             }
 
-            const black = '█'.repeat(node.innerHTML.length)
+            const black = '█'.repeat(node.innerText.length)
             if (node.tagName === 'A') {
                 node.style.color = 'unset'
                 node.innerHTML = black

@@ -5,8 +5,8 @@ const getInnerText = (node: Element) => Array.from(node.childNodes)
     .reduce((acc, n) => acc += n.nodeValue, '')
 
 const shouldMute = (muteWords: string[], excludeWords: string[], node: Element)	=> {
-    var mutes = muteWords.filter(word => getInnerText(node).includes(word))
-    var excludes = excludeWords.filter(word => getInnerText(node).includes(word))
+    var mutes = muteWords.filter(word => getInnerText(node).toLowerCase().includes(word.toLowerCase()))
+    var excludes = excludeWords.filter(word => getInnerText(node).toLowerCase().includes(word.toLowerCase()))
     return mutes.length > 0 && excludes.length === 0
 }
 

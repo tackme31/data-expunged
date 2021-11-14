@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import AutoComplete from '@material-ui/lab/Autocomplete';
 
-import { HideableTags } from '../const';
+import { BlackoutTags } from '../const';
 import {
     addExcludeWordAction, addMuteWordAction, deleteExcludeWordAction, deleteMuteWordAction,
     restoreSettingsAction, updateHtmlTagsAction
@@ -51,7 +51,7 @@ const Settings = () => {
 				<h2>{chrome.i18n.getMessage('target_tags')}</h2>
 				<AutoComplete
 					defaultValue={tags}
-					options={HideableTags}
+					options={BlackoutTags}
 					value={tags}
 					onChange={(_, values) => dispatch(updateHtmlTagsAction(values))}
 					size="small"

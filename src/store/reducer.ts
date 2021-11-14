@@ -1,12 +1,12 @@
 import { ActionTypes } from './actionTypes'
 import { SettingsState, SettingsActionTypes } from './types'
-import { HideableTags } from '../const'
+import { BlackoutTags } from '../const'
 
 const initialState: SettingsState = {
     muteWords: [],
     excludeWords: [],
     urlMatches: [],
-    tags: [...HideableTags]
+    tags: [...BlackoutTags]
 }
 
 export const settingsReducer = (state = initialState, action: SettingsActionTypes): SettingsState => {

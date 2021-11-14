@@ -16,20 +16,24 @@ export const blackout = (muteWords: string[], excludeWords: string[], selector: 
         .map((node) => node as HTMLElement)
         .filter((node) => shouldMute(muteWords, excludeWords, node)) 
         .forEach((node) => {
-            if (ExpungedTags.includes(node.tagName)) {
-                const text = chrome.i18n.getMessage('data_expunged')
-                node.outerHTML = `<${node.tagName}><b>[${text}]</b></${node.tagName}>`
-                return;
-            }
+            const newNode = document.createElement(node.tagName)
+            newNode.style.fontStyle = 'unset'
+            newNode.style.textDecoration = 'none'
+            newNode.style.fontWeight = 'unset'
+            newNode.style.color = 'unset'
+            newNode.setAttribute('href', 'javascript:void(0)')
+            newNode.innerHTML = ExpungedTags.includes(node.tagName)
+                ? `<b>[${chrome.i18n.getMessage('data_expunged')}]</b>`
+                : '█'.repeat(node.innerText.length)
 
-            const black = '█'.repeat(node.innerText.length)
-            if (node.tagName === 'A') {
-                node.style.color = 'unset'
-                node.innerHTML = black
-                return;
-            }
+            const parent = node.parentNode
+            parent?.insertBefore(newNode, node)
+            parent?.removeChild(node)
 
-            node.outerHTML = `<span>${black}</span>`
+            newNode.addEventListener('click', () => {
+                parent?.insertBefore(node, newNode)
+                parent?.removeChild(newNode)
+            })
         }
     )
 }

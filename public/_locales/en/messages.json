@@ -17,8 +17,8 @@
   "words_to_exclude": {
     "message": "Words to exclude"
   },
-  "target_tags": {
-    "message": "Target tags"
+  "target_selector": {
+    "message": "Target selector"
   },
   "target_sites": {
     "message": "Target sites"
@@ -46,5 +46,35 @@
   },
   "domain": {
     "message": "Domain"
+  },
+  "options": {
+    "message": "Options"
+  },
+  "options_title": {
+    "message": "OPTIONS"
+  },
+  "about": {
+    "message": "About"
+  },
+  "home": {
+    "message": "HOME"
+  },
+  "source": {
+    "message": "Source"
+  },
+  "repository": {
+    "message": "Repository"
+  },
+  "bug_report": {
+    "message": "Bug report"
+  },
+  "import": {
+    "message": "Import"
+  },
+  "export": {
+    "message": "Export"
+  },
+  "selector": {
+    "message": "Selector"
   }
 }

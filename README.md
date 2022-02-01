@@ -1,14 +1,15 @@
 # [DATA EXPUNGED]
-[DATA EXPUNGED] is a Google Chrome extension to hide text like SCP format.
-
-![](./img/example.png)
-
-## Installation
+## Special Installation Procedures
 This extension is not yet available on Chrome Web Store. To installation, build this project and load as a unpacked extension.
 
 1. Clone this repository
 1. `pnpm install` & `pnpm build`
 1. Load `/extensions` folder as a unpacked extension.
+
+## Description
+[DATA EXPUNGED] is a Google Chrome extension to hide text like SCP format. With this extension, you can mask passages that contain words you do not want to see, as shown below.
+
+![](./img/example.png)
 
 ## Options
 In order to use this extension, you need to set some options. The option page can be accessed from the icon in the upper right corner of the browser.
@@ -16,7 +17,11 @@ In order to use this extension, you need to set some options. The option page ca
 ![](./img/options.png)
 
 ### Words to hide
-A list of keywords to be hidden. If the keywords specified here are included in a HTML tag, the tag will be masked.
+A list of keywords to be hidden. If the keywords specified here are included in a HTML tag, the tag will be masked. The following HTML tags will be replaced with `[DATA EXPUNGED]` instead of blacked out (&#9608;&#9608;&#9608;).
+
+- `div`, `blockquote`, `p`, `td`, `li`
+
+You can unmask the hidden area by clicking on it.
 
 ### Words to exclude
 A list of keywords to exclude from the keywords to be hidden; even if the keywords specified in "Words to hide" are included, the HTML tags will not be masked if the keywords specified in this option are included.

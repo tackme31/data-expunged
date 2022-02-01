@@ -16,6 +16,7 @@ export function Popup() {
   const handleOnClick = async (type: "site" | "page") => {
     const tabs = await browser.tabs.query({
       active: true,
+      currentWindow: true,
     });
 
     if (!tabs.length || tabs[0].url === undefined) {

@@ -19,11 +19,9 @@ ReactDOM.render(
         </div>
       </header>
       <div id="topbar"></div>
-      <div>
-        <div className="content-wrapper" style={{ marginTop: "30px" }}>
-          <SideBar />
-          <Options />
-        </div>
+      <div className="content-wrapper" style={{ marginTop: "30px" }}>
+        <SideBar />
+        <Options />
       </div>
     </>
   </React.StrictMode>,

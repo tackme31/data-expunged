@@ -100,13 +100,12 @@ const censorText = (
     "excludeWords",
     "targetSelector",
     "targetSites",
-  ])) as Options;
+  ])) as Partial<Options>;
   if (!options) {
     return;
   }
 
-  const { muteWords, excludeWords, targetSelector, targetSites } =
-    options as Options;
+  const { muteWords, excludeWords, targetSelector, targetSites } = options;
   if (!isTargetSite(window.location, targetSites || [])) {
     return;
   }

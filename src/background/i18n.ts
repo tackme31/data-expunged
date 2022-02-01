@@ -7,7 +7,7 @@ type messageKey = keyof typeof en & keyof typeof ja;
 
 const i18n = (key: messageKey) => {
   const lang = navigator.language.slice(0, 2) as language;
-  return messages[lang][key].message;
+  return messages[lang || 'en'][key].message;
 };
 
 export default i18n;

@@ -23,7 +23,6 @@ export const sharedConfig: UserConfig = {
       ],
       dts: r('src/auto-imports.d.ts'),
     }),
-
     // rewrite assets to use relative path
     {
       name: 'assets-rewrite',
@@ -59,7 +58,6 @@ export default defineConfig(({ command }) => {
       },
       rollupOptions: {
         input: {
-          background: r('src/background/index.html'),
           options: r('src/options/index.html'),
           popup: r('src/popup/index.html'),
         },

@@ -1,22 +1,17 @@
 import { Options } from "../types";
+import i18n from "./i18n";
 
-// only on dev mode
-if (import.meta.hot) {
-  // @ts-expect-error for background HMR
-  import('/@vite/client')
-  // load latest content script
-  import('./contentScriptHMR')
-}
+const menuItemId = "add-to-hide-words";
 
 browser.contextMenus.create({
-  id: "add-to-hide-words",
-  title: browser.i18n.getMessage("add_to_hide_words"),
+  id: menuItemId,
+  title: i18n("add_to_hide_words"),
   contexts: ["selection"],
   type: "normal",
 });
 
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId !== "add-to-hide-words") {
+  if (info.menuItemId !== menuItemId) {
     return;
   }
 
@@ -24,11 +19,10 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     return;
   }
 
-  const { muteWords } = await browser.storage.local.get([ "muteWords" ]) as Partial<Options>;
+  const { muteWords } = (await browser.storage.local.get([
+    "muteWords",
+  ])) as Partial<Options>;
   browser.storage.local.set({
-    muteWords: [
-      ...(muteWords || []),
-      info.selectionText
-    ]
+    muteWords: [...(muteWords || []), info.selectionText],
   });
 });

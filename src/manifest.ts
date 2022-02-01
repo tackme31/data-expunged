@@ -32,7 +32,7 @@ export async function getManifest() {
       48: './assets/icons/48x48.png',
       128: './assets/icons/128x128.png',
     },
-    permissions: ['tabs', 'storage', 'activeTab', 'downloads', 'http://*/', 'https://*/'],
+    permissions: ['tabs', 'storage', 'activeTab', 'downloads', 'contextMenus', 'http://*/', 'https://*/'],
     content_scripts: [
       {
         matches: ['http://*/*', 'https://*/*'],

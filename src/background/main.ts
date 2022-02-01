@@ -1,5 +1,4 @@
-import { sendMessage, onMessage } from 'webext-bridge'
-import { Tabs } from 'webextension-polyfill'
+import { Options } from "../types";
 
 // only on dev mode
 if (import.meta.hot) {
@@ -9,44 +8,27 @@ if (import.meta.hot) {
   import('./contentScriptHMR')
 }
 
-browser.runtime.onInstalled.addListener((): void => {
-  // eslint-disable-next-line no-console
-  console.log('Extension installed')
-})
+browser.contextMenus.create({
+  id: "add-to-hide-words",
+  title: browser.i18n.getMessage("add_to_hide_words"),
+  contexts: ["selection"],
+  type: "normal",
+});
 
-let previousTabId = 0
-
-// communication example: send previous tab title from background page
-// see shim.d.ts for type declaration
-browser.tabs.onActivated.addListener(async ({ tabId }) => {
-  if (!previousTabId) {
-    previousTabId = tabId
-    return
+browser.contextMenus.onClicked.addListener(async (info, tab) => {
+  if (info.menuItemId !== "add-to-hide-words") {
+    return;
   }
 
-  let tab: Tabs.Tab
-
-  try {
-    tab = await browser.tabs.get(previousTabId)
-    previousTabId = tabId
-  } catch {
-    return
+  if (!info.selectionText) {
+    return;
   }
 
-  // eslint-disable-next-line no-console
-  console.log('previous tab', tab)
-  sendMessage('tab-prev', { title: tab.title }, { context: 'content-script', tabId })
-})
-
-onMessage('get-current-tab', async () => {
-  try {
-    const tab = await browser.tabs.get(previousTabId)
-    return {
-      title: tab?.id,
-    }
-  } catch {
-    return {
-      title: undefined,
-    }
-  }
-})
+  const { muteWords } = await browser.storage.local.get([ "muteWords" ]) as Partial<Options>;
+  browser.storage.local.set({
+    muteWords: [
+      ...(muteWords || []),
+      info.selectionText
+    ]
+  });
+});

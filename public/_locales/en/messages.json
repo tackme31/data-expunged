@@ -94,5 +94,8 @@
   },
   "page_already_deactivated": {
     "message": "This page has already been deactivated."
+  },
+  "add_to_hide_words": {
+    "message": "Add to hide words"
   }
 }

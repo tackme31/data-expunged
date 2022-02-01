@@ -94,5 +94,8 @@
   },
   "page_already_added": {
     "message": "すでに無効化されています。"
+  },
+  "add_to_hide_words": {
+    "message": "削除対象に追加する"
   }
 }

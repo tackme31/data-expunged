@@ -76,5 +76,23 @@
   },
   "selector": {
     "message": "Selector"
+  },
+  "go_to_option_page": {
+    "message": "Go to option page"
+  },
+  "disable_on_this_site": {
+    "message": "Disable on this site"
+  },
+  "disable_on_this_page": {
+    "message": "Disable on this page"
+  },
+  "deactivated": {
+    "message": "Deactivated."
+  },
+  "site_already_deactivated": {
+    "message": "This site has already been deactivated."
+  },
+  "page_already_deactivated": {
+    "message": "This page has already been deactivated."
   }
 }

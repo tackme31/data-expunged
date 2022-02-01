@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import { Container } from "./style";
@@ -38,7 +38,11 @@ export function Popup() {
               site.value === url.hostname
           );
     if (existing) {
-      setSnackbarMessage(`This ${type} has already been added.`);
+      const message =
+        type === "page"
+          ? browser.i18n.getMessage("page_already_added")
+          : browser.i18n.getMessage("site_already_added");
+      setSnackbarMessage(message);
       setSnackbarOpened(true);
       return;
     }
@@ -52,7 +56,7 @@ export function Popup() {
       },
     ]);
 
-    setSnackbarMessage("Added.");
+    setSnackbarMessage(browser.i18n.getMessage("deactivated"));
     setSnackbarOpened(true);
   };
   return (
@@ -63,21 +67,21 @@ export function Popup() {
           variant="outlined"
           onClick={() => browser.runtime.openOptionsPage()}
         >
-          Go to option page.
+          {browser.i18n.getMessage("go_to_option_page")}
         </Button>
         <Button
           fullWidth
           variant="contained"
           onClick={() => handleOnClick("site")}
         >
-          Disable on this site.
+          {browser.i18n.getMessage("disable_on_this_site")}
         </Button>
         <Button
           fullWidth
           variant="contained"
           onClick={() => handleOnClick("page")}
         >
-          Disable on this page.
+          {browser.i18n.getMessage("disable_on_this_page")}
         </Button>
         <Snackbar
           open={snackbarOpened}

@@ -76,5 +76,23 @@
   },
   "selector": {
     "message": "セレクター"
+  },
+  "go_to_option_page": {
+    "message": "オプションページを開く"
+  },
+  "disable_on_this_site": {
+    "message": "このサイトでは無効化する"
+  },
+  "disable_on_this_page": {
+    "message": "このページでは無効化する"
+  },
+  "deactivated": {
+    "message": "無効化しました。"
+  },
+  "site_already_added": {
+    "message": "すでに無効化されています。"
+  },
+  "page_already_added": {
+    "message": "すでに無効化されています。"
   }
 }

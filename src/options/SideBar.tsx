@@ -46,16 +46,22 @@ export const SideBar = () => {
             backgroundColor: "#a7dba2",
           }}
         >
-          <a className={classes.menuItem} href="#link-to-readme">
-            &#x25B7; {browser.i18n.getMessage("about")}
+          <a
+            className={classes.menuItem}
+            href={
+              "https://chrome.google.com/webstore/detail/" + browser.runtime.id
+            }
+            target="_blank"
+          >
+            &#x24D8; {browser.i18n.getMessage("about")}
           </a>
         </div>
         <hr className={classes.line} />
         <div className={classes.sideBlock}>
           <div>
-            <a className={classes.menuItem} href="#link-to-extension-page">
-              &#x2302; {browser.i18n.getMessage("home")}
-            </a>
+            <span className={classes.menuItem}>
+              &#x2630; {browser.i18n.getMessage("menu")}
+            </span>
           </div>
           <div className={classes.menuHeader}>
             <p>{browser.i18n.getMessage("options")}</p>

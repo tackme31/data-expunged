@@ -56,8 +56,8 @@
   "about": {
     "message": "About"
   },
-  "home": {
-    "message": "HOME"
+  "menu": {
+    "message": "MENU"
   },
   "source": {
     "message": "Source"

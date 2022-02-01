@@ -56,8 +56,8 @@
   "about": {
     "message": "この拡張機能について"
   },
-  "home": {
-    "message": "ホーム"
+  "menu": {
+    "message": "メニュー"
   },
   "source": {
     "message": "ソースコード"

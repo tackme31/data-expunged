@@ -60,6 +60,7 @@ export default defineConfig(({ command }) => {
         input: {
           options: r('src/options/index.html'),
           popup: r('src/popup/index.html'),
+          ...(isDev ? {background: r('src/background/index.html')} : {})
         },
       },
     },

@@ -1,8 +1,14 @@
 import { Options } from "../types";
 import i18n from "./i18n";
 
-const menuItemId = "add-to-hide-words";
+if (import.meta.hot) {
+  // @ts-expect-error for background HMR
+  import('/@vite/client')
+  // load latest content script
+  import('./contentScriptHMR')
+}
 
+const menuItemId = "add-to-hide-words";
 browser.contextMenus.create({
   id: menuItemId,
   title: i18n("add_to_hide_words"),

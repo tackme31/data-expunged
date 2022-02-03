@@ -87,7 +87,9 @@ const censorText = (
       parent?.insertBefore(newNode, node);
       parent?.removeChild(node);
 
-      newNode.addEventListener("click", () => {
+      newNode.addEventListener("click", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
         parent?.insertBefore(node, newNode);
         parent?.removeChild(newNode);
       });

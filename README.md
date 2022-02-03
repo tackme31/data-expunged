@@ -1,13 +1,17 @@
 # [DATA EXPUNGED]
 ## Special Installation Procedures
-This extension is not yet available on Chrome Web Store. To installation, build this project and load as a unpacked extension.
+[DATA EXPUNGED] is not contained currently. Civilians can install by anyone through the Chrome Web Store.
 
-1. Clone this repository
-1. `pnpm install` & `pnpm build`
+- [[DATA EXPUNGED] - Chrome Web Store](https://chrome.google.com/webstore/detail/data-expunged/lmoeanpjjaliocmmbjloeiccpkoccado)
+
+In order to use for research purposes, follow the steps below.
+
+1. Clone this repository.
+1. `pnpm install` & `pnpm build`.
 1. Load `/extensions` folder as a unpacked extension.
 
 ## Description
-[DATA EXPUNGED] is a Google Chrome extension to hide text like SCP format. With this extension, you can mask passages that contain words you do not want to see, as shown below.
+[DATA EXPUNGED] is a Google Chrome extension to hide specific texts like SCP format. This extension masks passages that contain words the user does not want to see, as shown below.
 
 ![](./img/example.png)
 
@@ -17,7 +21,7 @@ In order to use this extension, you need to set some options. The option page ca
 ![](./img/options.png)
 
 ### Words to hide
-A list of keywords to be hidden. If the keywords specified here are included in a HTML tag, the tag will be masked. The following HTML tags will be replaced with `[DATA EXPUNGED]` instead of blacked out (&#9608;&#9608;&#9608;).
+A list of keywords to be hidden. If the keywords specified here are included in an HTML tag, the tag will be masked. The following HTML tags will be replaced with `[DATA EXPUNGED]` instead of blacked out (&#9608;&#9608;&#9608;).
 
 - `div`, `blockquote`, `p`, `td`, `li`
 
@@ -30,8 +34,7 @@ A list of keywords to exclude from the keywords to be hidden; even if the keywor
 A selector for HTML tags to be hidden. If the HTML tag that is the target of the selector contains a target word, that tag will be masked.
 
 ### Target Site
-A list of site criteria that are covered by this extension. A criteria can be specified by whether the domain/URL of the site matches/not match.  
-By default, all sites are included.
+A list of site criteria that are covered by this extension. Criteria can be specified by whether the domain/URL of the site matches/not match. All sites are target by default.
 
 ## Other Features
 - Import/Export options.

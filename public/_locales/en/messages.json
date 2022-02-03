@@ -4,9 +4,12 @@
   },
   "Description": {
     "message": "A Google Chrome extension to hide text like SCP format."
-  },  
+  },
+  "option_title": {
+    "message": "Options - [DATA EXPUNGED]"
+  },
   "data_expunged": {
-      "message": "DATA EXPUNGED"
+    "message": "DATA EXPUNGED"
   },
   "target_words": {
     "message": "Target words"

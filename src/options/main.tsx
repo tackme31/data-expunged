@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Options } from "./Options";
 import { SideBar } from "./SideBar";
 import "./options.css";
 
-ReactDOM.render(
-  <React.StrictMode>
+const App = () => {
+  useEffect(() => {
+    document.title = browser.i18n.getMessage("option_title");
+  }, []);
+
+  return (
     <>
       <header>
         <div className="stripe">
@@ -24,6 +28,12 @@ ReactDOM.render(
         <Options />
       </div>
     </>
+  );
+};
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

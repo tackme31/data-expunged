@@ -13,7 +13,7 @@ ReactDOM.render(
             <img src="/assets/icons/128x128-title.png" id="logo" />
             <div>
               <h1 id="title">{"Data Expunged"}</h1>
-              <h2 id="subtitle">{"Hide, Mask, Censor"}</h2>
+              <h2 id="subtitle">{"Suppress, Censor, Prevent"}</h2>
             </div>
           </div>
         </div>

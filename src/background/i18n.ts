@@ -1,13 +1,11 @@
-import en from "../../extension/_locales/en/messages.json";
-import ja from "../../extension/_locales/ja/messages.json";
+import en from "../../public/_locales/en/messages.json";
+import ja from "../../public/_locales/ja/messages.json";
 
 const messages = { en, ja };
-type language = keyof typeof messages;
-type messageKey = keyof typeof en & keyof typeof ja;
+type Language = keyof typeof messages;
+type MessageKey = keyof typeof en & keyof typeof ja;
 
-const i18n = (key: messageKey) => {
-  const lang = navigator.language.slice(0, 2) as language;
+export const getMessage = (key: MessageKey) => {
+  const lang = navigator.language.slice(0, 2) as Language;
   return messages[lang || 'en'][key].message;
 };
-
-export default i18n;

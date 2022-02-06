@@ -1,5 +1,5 @@
 import { Options } from "../types";
-import i18n from "./i18n";
+import * as i18n from "./i18n";
 
 if (import.meta.hot) {
   // @ts-expect-error for background HMR
@@ -11,7 +11,7 @@ if (import.meta.hot) {
 const menuItemId = "add-to-hide-words";
 browser.contextMenus.create({
   id: menuItemId,
-  title: i18n("add_to_hide_words"),
+  title: i18n.getMessage("add_to_hide_words"),
   contexts: ["selection"],
   type: "normal",
 });

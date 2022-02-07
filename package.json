@@ -1,6 +1,6 @@
 {
   "name": "data-expunged",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Google Chrome extension to hide text like SCP format.",
   "keywords": [
     "chrome",

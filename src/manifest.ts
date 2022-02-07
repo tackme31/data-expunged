@@ -44,7 +44,7 @@ export async function getManifest() {
     default_popup: "./dist/popup/index.html",
   };
   const permissions = {
-    type: ["tabs", "storage", "activeTab", "downloads", "contextMenus"],
+    type: ["storage", "activeTab", "downloads", "contextMenus"],
     host: ["http://*/", "https://*/"],
   };
 

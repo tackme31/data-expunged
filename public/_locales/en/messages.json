@@ -89,15 +89,6 @@
   "disable_on_this_page": {
     "message": "Disable on this page"
   },
-  "deactivated": {
-    "message": "Deactivated."
-  },
-  "site_already_deactivated": {
-    "message": "This site has already been deactivated."
-  },
-  "page_already_deactivated": {
-    "message": "This page has already been deactivated."
-  },
   "add_to_hide_words": {
     "message": "Add to hide words"
   }

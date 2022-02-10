@@ -84,19 +84,10 @@
     "message": "オプションページを開く"
   },
   "disable_on_this_site": {
-    "message": "このサイトでは無効化する"
+    "message": "このサイトでは無効化"
   },
   "disable_on_this_page": {
-    "message": "このページでは無効化する"
-  },
-  "deactivated": {
-    "message": "無効化しました。"
-  },
-  "site_already_added": {
-    "message": "すでに無効化されています。"
-  },
-  "page_already_added": {
-    "message": "すでに無効化されています。"
+    "message": "このページでは無効化"
   },
   "add_to_hide_words": {
     "message": "検閲対象に追加する"

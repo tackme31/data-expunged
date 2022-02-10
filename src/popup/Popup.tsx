@@ -1,97 +1,118 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
-import Snackbar from "@material-ui/core/Snackbar";
-import { Container } from "./style";
 import { useChromeStorage } from "../logic";
-import { Site, UrlType, Condition } from "../types";
+import { Site, UrlType, Condition, Options } from "../types";
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+
+const getCurrentPageUrl = async () => {
+  const tabs = await browser.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+
+  if (!tabs.length || tabs[0].url === undefined) {
+    return;
+  }
+
+  return new URL(tabs[0].url);
+};
 
 export function Popup() {
+  const [isTargetSite, setIsTargetSite] = useState(false);
+  const [isTargetPage, setIsTargetPage] = useState(false);
   const [targetSites, setTargetSites] = useChromeStorage<Site[]>(
     "targetSites",
     []
   );
-  const [snackbarOpened, setSnackbarOpened] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState("");
 
-  const handleOnClick = async (type: "site" | "page") => {
-    const tabs = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
+  useEffect(() => {
+    const checkDisabled = async () => {
+      const url = await getCurrentPageUrl();
+      if (!url) {
+        return;
+      }
 
-    if (!tabs.length || tabs[0].url === undefined) {
+      // Hooks' targetSites is empty at this time. So get directly from storage.
+      const value = (await browser.storage.local.get("targetSites")) as Options;
+      const sites = value.targetSites || [];
+      const existingSite = sites.some(
+        (site) =>
+          site.type === UrlType.Domain &&
+          site.condition === Condition.NotEqual &&
+          site.value === url.hostname
+      );
+
+      const existingPage = sites.some(
+        (site) =>
+          site.type === UrlType.URL &&
+          site.condition === Condition.NotEqual &&
+          site.value === url.toString()
+      );
+
+      setIsTargetSite(existingSite);
+      setIsTargetPage(existingPage);
+    };
+
+    checkDisabled();
+  }, []);
+
+  const toggleDisabled = async (
+    type: UrlType,
+    getValue: (url: URL) => string,
+    setState: (state: boolean) => void
+  ) => {
+    const url = await getCurrentPageUrl();
+    if (!url) {
       return;
     }
+    const existing = targetSites.find(
+      (site) =>
+        site.type === type &&
+        site.condition === Condition.NotEqual &&
+        site.value === getValue(url)
+    );
 
-    const url = new URL(tabs[0].url);
-    const existing =
-      type === "page"
-        ? targetSites.find(
-            (site) =>
-              site.type === UrlType.URL &&
-              site.condition === Condition.NotEqual &&
-              site.value === url.toString()
-          )
-        : targetSites.find(
-            (site) =>
-              site.type === UrlType.Domain &&
-              site.condition === Condition.NotEqual &&
-              site.value === url.hostname
-          );
+    setState(!existing);
     if (existing) {
-      const message =
-        type === "page"
-          ? browser.i18n.getMessage("page_already_added")
-          : browser.i18n.getMessage("site_already_added");
-      setSnackbarMessage(message);
-      setSnackbarOpened(true);
-      return;
+      setTargetSites(targetSites.filter((site) => site !== existing));
+    } else {
+      setTargetSites([
+        ...targetSites,
+        {
+          type: type,
+          condition: Condition.NotEqual,
+          value: getValue(url),
+        },
+      ]);
     }
-
-    setTargetSites([
-      ...targetSites,
-      {
-        type: type === "page" ? UrlType.URL : UrlType.Domain,
-        condition: Condition.NotEqual,
-        value: type === "page" ? url.toString() : url.hostname,
-      },
-    ]);
-
-    setSnackbarMessage(browser.i18n.getMessage("deactivated"));
-    setSnackbarOpened(true);
   };
+
   return (
-    <Container style={{ width: "200px" }}>
-      <header className="App-header">
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => browser.runtime.openOptionsPage()}
-        >
-          {browser.i18n.getMessage("go_to_option_page")}
-        </Button>
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={() => handleOnClick("site")}
-        >
-          {browser.i18n.getMessage("disable_on_this_site")}
-        </Button>
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={() => handleOnClick("page")}
-        >
-          {browser.i18n.getMessage("disable_on_this_page")}
-        </Button>
-        <Snackbar
-          open={snackbarOpened}
-          autoHideDuration={3000}
-          onClose={() => setSnackbarOpened(false)}
-          onClick={() => setSnackbarOpened(false)}
-          message={snackbarMessage}
-        />
-      </header>
-    </Container>
+    <div style={{ width: "15.5rem" }}>
+      <Button
+        fullWidth
+        variant="outlined"
+        onClick={() => browser.runtime.openOptionsPage()}
+      >
+        {browser.i18n.getMessage("go_to_option_page")}
+      </Button>
+      <FormControlLabel
+        control={<Switch checked={isTargetSite} />}
+        onClick={() =>
+          toggleDisabled(UrlType.Domain, (url) => url.hostname, setIsTargetSite)
+        }
+        label={browser.i18n.getMessage("disable_on_this_site")}
+        style={{ margin: "auto" }}
+      />
+      <FormControlLabel
+        control={<Switch checked={isTargetPage} />}
+        onClick={() =>
+          toggleDisabled(UrlType.URL, (url) => url.toString(), setIsTargetPage)
+        }
+        label={browser.i18n.getMessage("disable_on_this_page")}
+        style={{ margin: "auto" }}
+      />
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import { UrlType, Condition, Site } from "../types";
 import { ExpungedTags } from "../const";
 import { when } from "../logic";
+import { MaskedHTMLElement } from "../types"
 
 export const isTargetSite = (location: Location, sites: Site[]): boolean => {
   const targets = sites
@@ -67,7 +68,7 @@ const createMaskedNode = (node: HTMLElement) => {
     ? `<b>[${browser.i18n.getMessage("data_expunged")}]</b>`
     : "\u2588".repeat(node.innerText.length);
 
-  return newNode;
+  return newNode as MaskedHTMLElement;
 };
 
 export const maskTags = (
@@ -81,16 +82,20 @@ export const maskTags = (
     .map((node) => node as HTMLElement)
     .filter((node) => shouldBeMasked(muteWords, excludeWords, node))
     .forEach((node) => {
-      const newNode = createMaskedNode(node);
+      const maskedNode = createMaskedNode(node);
       const parent = node.parentNode;
-      parent?.insertBefore(newNode, node);
+      parent?.insertBefore(maskedNode, node);
       parent?.removeChild(node);
 
-      newNode.addEventListener("click", (e) => {
+      maskedNode.unmask = () => {
+        parent?.insertBefore(node, maskedNode);
+        parent?.removeChild(maskedNode);
+      }
+
+      maskedNode.addEventListener("click", (e) => {
         e.stopPropagation();
         e.preventDefault();
-        parent?.insertBefore(node, newNode);
-        parent?.removeChild(newNode);
+        maskedNode.unmask();
       });
     });
 };
@@ -101,13 +106,10 @@ export const unmaskTags = () => {
     return;
   }
 
-  const ev = new MouseEvent("click", {
-    view: window,
-    bubbles: false,
-    cancelable: false,
-  });
-  Array.from(nodes).forEach((node) => {
-    node.dispatchEvent(ev);
+  Array.from(nodes)
+  .map((node) => node as MaskedHTMLElement)
+  .forEach((node) => {
+    node.unmask();
     node.remove();
   });
 

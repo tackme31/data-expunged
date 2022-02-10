@@ -26,3 +26,7 @@ export type Options = {
   targetSelector: string,
   targetSites: Site[]
 }
+
+export interface MaskedHTMLElement extends HTMLElement {
+  unmask: () => void;
+}

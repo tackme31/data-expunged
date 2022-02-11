@@ -47,13 +47,13 @@ const shouldBeMasked = (
     .reduce((acc, n) => (acc += n.nodeValue), "")
     .toLowerCase();
 
-  const mutes = muteWords
+  const hasMuteWords = muteWords
     .map((word) => word.toLowerCase())
-    .filter((word) => nodeText.includes(word));
-  const excludes = excludeWords
+    .some((word) => nodeText.includes(word));
+  const hasExcludeWords = excludeWords
     .map((word) => word.toLowerCase())
-    .filter((word) => nodeText.includes(word));
-  return mutes.length > 0 && excludes.length === 0;
+    .some((word) => nodeText.includes(word));
+  return hasMuteWords && !hasExcludeWords;
 };
 
 const createMaskedNode = (node: HTMLElement) => {

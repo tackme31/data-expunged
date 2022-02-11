@@ -20,25 +20,31 @@ const censor = ({
   );
 };
 
-(async () => {
+const getOptions = async () => {
   const options = (await browser.storage.local.get([
     "muteWords",
     "excludeWords",
     "targetSelector",
     "targetSites",
   ])) as Options;
-  if (!options) {
-    return;
+
+  return options || {};
+};
+
+(async () => {
+  {
+    const options = await getOptions();
+    censor(options);
   }
 
-  censor(options);
-
-  browser.storage.onChanged.addListener((changes) => {
+  browser.storage.onChanged.addListener(async (changes) => {
+    const options = await getOptions();
     const muteWords = changes.muteWords?.newValue || options.muteWords;
     const excludeWords = changes.excludeWords?.newValue || options.excludeWords;
     const targetSelector =
       changes.targetSelector?.newValue || options.targetSelector;
     const targetSites = changes.targetSites?.newValue || options.targetSites;
+
     censor({
       muteWords,
       excludeWords,

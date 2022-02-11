@@ -1,5 +1,7 @@
 **Item #:** SCP-&#9608;&#9608;&#9608;&#9608;  
+
 **Object Class:** Safe  
+
 **Special Installation Procedures:** [DATA EXPUNGED] is not contained currently. Civilians can install by anyone through the Chrome Web Store.  
 
 - [[DATA EXPUNGED] - Chrome Web Store](https://chrome.google.com/webstore/detail/data-expunged/lmoeanpjjaliocmmbjloeiccpkoccado)
@@ -8,7 +10,7 @@ In order to use for research purposes, follow the steps below.
 
 1. Clone this repository.
 1. `pnpm install` & `pnpm build`.
-1. Load `/extensions` folder as a unpacked extension.
+1. Load `/extensions` folder as an unpacked extension.
 
 **Description:** [DATA EXPUNGED] is a Google Chrome extension to hide specific texts like SCP format. The following is a list of features that are currently known.  
 

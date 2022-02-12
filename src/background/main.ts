@@ -16,7 +16,7 @@ browser.contextMenus.create({
   type: "normal",
 });
 
-browser.contextMenus.onClicked.addListener(async (info, tab) => {
+browser.contextMenus.onClicked.addListener(async (info) => {
   if (info.menuItemId !== menuItemId) {
     return;
   }

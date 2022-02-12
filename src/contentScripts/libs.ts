@@ -1,9 +1,8 @@
-import { UrlType, Condition, Site } from "../types";
-import { ExpungedTags } from "../const";
-import { when } from "../logic";
-import { MaskedHTMLElement } from "../types"
+import { DefaultSelector, ExpungedTags } from '../const';
+import { when } from '../logic';
+import { Condition, MaskedHTMLElement, Options, Site, UrlType } from '../types';
 
-export const isTargetSite = (location: Location, sites: Site[]): boolean => {
+const isTargetSite = (location: Location, sites: Site[]): boolean => {
   const targets = sites
     .filter((site) => site.value)
     .concat([{ type: UrlType.URL, condition: Condition.StartsWith, value: "" }])
@@ -71,7 +70,7 @@ const createMaskedNode = (node: HTMLElement) => {
   return newNode as MaskedHTMLElement;
 };
 
-export const maskTags = (
+const maskTags = (
   muteWords: string[],
   excludeWords: string[],
   selector: string
@@ -90,7 +89,7 @@ export const maskTags = (
       maskedNode.unmask = () => {
         parent?.insertBefore(node, maskedNode);
         parent?.removeChild(maskedNode);
-      }
+      };
 
       maskedNode.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -100,18 +99,47 @@ export const maskTags = (
     });
 };
 
-export const unmaskTags = () => {
+const unmaskTags = () => {
   const nodes = document.getElementsByClassName(browser.runtime.id);
   if (!nodes.length) {
     return;
   }
 
   Array.from(nodes)
-  .map((node) => node as MaskedHTMLElement)
-  .forEach((node) => {
-    node.unmask();
-    node.remove();
-  });
+    .map((node) => node as MaskedHTMLElement)
+    .forEach((node) => {
+      node.unmask();
+      node.remove();
+    });
 
   unmaskTags();
+};
+
+export const censor = ({
+  muteWords,
+  excludeWords,
+  targetSelector,
+  targetSites,
+}: Options) => {
+  unmaskTags();
+  if (!isTargetSite(window.location, targetSites || [])) {
+    return;
+  }
+
+  maskTags(
+    muteWords || [],
+    excludeWords || [],
+    targetSelector || DefaultSelector
+  );
+};
+
+export const getOptions = async () => {
+  const options = (await browser.storage.local.get([
+    "muteWords",
+    "excludeWords",
+    "targetSelector",
+    "targetSites",
+  ])) as Options;
+
+  return options || {};
 };

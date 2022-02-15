@@ -1,4 +1,4 @@
-import { Options } from "../types";
+import { getOptions } from "../logic";
 import * as i18n from "./i18n";
 
 if (import.meta.hot) {
@@ -25,9 +25,7 @@ browser.contextMenus.onClicked.addListener(async (info) => {
     return;
   }
 
-  const { muteWords } = (await browser.storage.local.get([
-    "muteWords",
-  ])) as Partial<Options>;
+  const { muteWords } = await getOptions();
   browser.storage.local.set({
     muteWords: [...(muteWords || []), info.selectionText],
   });

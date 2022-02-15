@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
-import { useChromeStorage } from "../logic";
-import { Site, UrlType, Condition, Options } from "../types";
+import { useChromeStorage, getOptions } from "../logic";
+import { Site, UrlType, Condition } from "../types";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
@@ -34,16 +34,15 @@ export function Popup() {
       }
 
       // Hooks' targetSites is empty at this time. So get directly from storage.
-      const value = (await browser.storage.local.get("targetSites")) as Options;
-      const sites = value.targetSites || [];
-      const existingSite = sites.some(
+      const { targetSites: sites } = await getOptions();
+      const existingSite = sites?.some(
         (site) =>
           site.type === UrlType.Domain &&
           site.condition === Condition.NotEqual &&
           site.value === url.hostname
       );
 
-      const existingPage = sites.some(
+      const existingPage = sites?.some(
         (site) =>
           site.type === UrlType.URL &&
           site.condition === Condition.NotEqual &&

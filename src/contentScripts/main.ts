@@ -1,6 +1,6 @@
 import { DefaultSelector } from "../const";
-import { when } from "../logic";
-import { Condition, MaskedHTMLElement, Options, Site, UrlType } from "../types";
+import { when, getNodeText, getOptions } from "../logic";
+import { Condition, MaskedHTMLElement, Site, UrlType } from "../types";
 
 const isTargetSite = (location: Location, sites: Site[]): boolean => {
   const targets = sites
@@ -36,19 +36,16 @@ const isTargetSite = (location: Location, sites: Site[]): boolean => {
   return include && exclude;
 };
 
-const getNodeText = (node: Element) =>
-  Array.from(node.childNodes)
-    .filter((n) => n.nodeType === Node.TEXT_NODE)
-    .reduce((acc, n) => (acc += n.nodeValue), "")
-    .toLowerCase();
-
 const shouldBeMasked = (
   muteWords: string[],
   excludeWords: string[],
   node: Element
 ) => {
-  const nodeText = getNodeText(node);
+  if (node?.classList.contains(browser.runtime.id + "-original")) {
+    return false;
+  }
 
+  const nodeText = getNodeText(node);
   const hasMuteWords = muteWords
     .map((word) => word.toLowerCase())
     .some((word) => nodeText.includes(word));
@@ -59,8 +56,8 @@ const shouldBeMasked = (
 };
 
 const createMaskedText = (node: HTMLElement) => {
-  const ExpungedTags = ["div", "blockquote", "p", "td", "li"];
-  if (ExpungedTags.includes(node.tagName.toLowerCase())) {
+  const expungedTags = ["div", "blockquote", "p", "td", "li"];
+  if (expungedTags.includes(node.tagName.toLowerCase())) {
     return `<b>[${browser.i18n.getMessage("data_expunged")}]</b>`;
   }
 
@@ -74,7 +71,7 @@ const createMaskedText = (node: HTMLElement) => {
 
 const createMaskedNode = (node: HTMLElement) => {
   const newNode = document.createElement(node.tagName);
-  newNode.className = browser.runtime.id;
+  newNode.className = browser.runtime.id + "-black";
   newNode.style.fontStyle = "unset";
   newNode.style.textDecoration = "none";
   newNode.style.fontWeight = "unset";
@@ -97,46 +94,28 @@ const maskTags = (
     .filter((node) => shouldBeMasked(muteWords, excludeWords, node))
     .forEach((node) => {
       const maskedNode = createMaskedNode(node);
-      const parent = node.parentNode;
+      const parent = node.parentNode as HTMLElement;
       parent?.insertBefore(maskedNode, node);
       parent?.removeChild(node);
+      node.classList.add(browser.runtime.id + "-original");
 
       maskedNode.unmask = () => {
         parent?.insertBefore(node, maskedNode);
         parent?.removeChild(maskedNode);
+        node?.classList.remove(browser.runtime.id + "-original");
       };
 
       maskedNode.addEventListener("click", (e) => {
         e.stopPropagation();
         e.preventDefault();
-        maskedNode.unmask();
+        parent?.insertBefore(node, maskedNode);
+        parent?.removeChild(maskedNode);
       });
     });
 };
 
-const unmaskTags = () => {
-  const nodes = document.getElementsByClassName(browser.runtime.id);
-  if (!nodes.length) {
-    return;
-  }
-
-  Array.from(nodes)
-    .map((node) => node as MaskedHTMLElement)
-    .forEach((node) => {
-      node.unmask();
-      node.remove();
-    });
-
-  unmaskTags();
-};
-
-export const censor = ({
-  muteWords,
-  excludeWords,
-  targetSelector,
-  targetSites,
-}: Options) => {
-  unmaskTags();
+export const censor = async () => {
+  const { muteWords, excludeWords, targetSelector, targetSites } = await getOptions();
   if (!isTargetSite(window.location, targetSites || [])) {
     return;
   }
@@ -148,13 +127,18 @@ export const censor = ({
   );
 };
 
-export const getOptions = async () => {
-  const options = (await browser.storage.local.get([
-    "muteWords",
-    "excludeWords",
-    "targetSelector",
-    "targetSites",
-  ])) as Options;
+export const decensor = () => {
+  const nodes = document.getElementsByClassName(browser.runtime.id + "-black");
+  if (!nodes.length) {
+    return;
+  }
 
-  return options || {};
+  Array.from(nodes)
+    .map((node) => node as MaskedHTMLElement)
+    .forEach((node) => {
+      node.unmask();
+      node.remove();
+    });
+
+  decensor();
 };

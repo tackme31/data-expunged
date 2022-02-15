@@ -1,22 +1,13 @@
 import React from "react";
 import { DefaultSelector } from "../const";
-import type { Options } from "../types";
+import { getOptions } from "../logic";
 
 interface Props {
   className: string;
 }
 
 const downloadOptions = async () => {
-  const options = (await browser.storage.local.get([
-    "muteWords",
-    "excludeWords",
-    "targetSelector",
-    "targetSites",
-  ])) as Partial<Options>;
-  if (!options) {
-    return;
-  }
-
+  const options = await getOptions();
   const json = JSON.stringify({
     ...options,
     targetSelector: options.targetSelector || DefaultSelector,

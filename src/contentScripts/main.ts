@@ -62,22 +62,27 @@ const createMaskedText = (node: HTMLElement) => {
   }
 
   const nodeText = getNodeText(node);
-  if (nodeText.length > 15) {
+  if (nodeText.length > 50) {
     return `<b>[${browser.i18n.getMessage("data_expunged")}]</b>`;
   }
-
-  return "\u2588".repeat(nodeText.length);
+  
+  const length = Math.min(nodeText.length, 15);
+  return "\u2588".repeat(length);
 };
 
 const createMaskedNode = (node: HTMLElement) => {
   const newNode = document.createElement(node.tagName);
-  newNode.className = browser.runtime.id + "-black";
-  newNode.style.fontStyle = "unset";
-  newNode.style.textDecoration = "none";
-  newNode.style.fontWeight = "unset";
-  newNode.style.color = "unset";
+  newNode.className = node.className;
+  newNode.classList.add(browser.runtime.id + "-black");
   newNode.setAttribute("href", "javascript:void(0)");
   newNode.innerHTML = createMaskedText(node);
+
+  if (node.tagName === 'A') {
+    newNode.style.fontStyle = "unset";
+    newNode.style.textDecoration = "none";
+    newNode.style.fontWeight = "unset";
+    newNode.style.color = "unset";
+  }
 
   return newNode as MaskedHTMLElement;
 };

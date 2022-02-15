@@ -1,6 +1,6 @@
-import { DefaultSelector, ExpungedTags } from '../const';
-import { when } from '../logic';
-import { Condition, MaskedHTMLElement, Options, Site, UrlType } from '../types';
+import { DefaultSelector } from "../const";
+import { when } from "../logic";
+import { Condition, MaskedHTMLElement, Options, Site, UrlType } from "../types";
 
 const isTargetSite = (location: Location, sites: Site[]): boolean => {
   const targets = sites
@@ -36,15 +36,18 @@ const isTargetSite = (location: Location, sites: Site[]): boolean => {
   return include && exclude;
 };
 
+const getNodeText = (node: Element) =>
+  Array.from(node.childNodes)
+    .filter((n) => n.nodeType === Node.TEXT_NODE)
+    .reduce((acc, n) => (acc += n.nodeValue), "")
+    .toLowerCase();
+
 const shouldBeMasked = (
   muteWords: string[],
   excludeWords: string[],
   node: Element
 ) => {
-  const nodeText = Array.from(node.childNodes)
-    .filter((n) => n.nodeType === Node.TEXT_NODE)
-    .reduce((acc, n) => (acc += n.nodeValue), "")
-    .toLowerCase();
+  const nodeText = getNodeText(node);
 
   const hasMuteWords = muteWords
     .map((word) => word.toLowerCase())
@@ -55,6 +58,20 @@ const shouldBeMasked = (
   return hasMuteWords && !hasExcludeWords;
 };
 
+const createMaskedText = (node: HTMLElement) => {
+  const ExpungedTags = ["div", "blockquote", "p", "td", "li"];
+  if (ExpungedTags.includes(node.tagName.toLowerCase())) {
+    return `<b>[${browser.i18n.getMessage("data_expunged")}]</b>`;
+  }
+
+  const nodeText = getNodeText(node);
+  if (nodeText.length > 15) {
+    return `<b>[${browser.i18n.getMessage("data_expunged")}]</b>`;
+  }
+
+  return "\u2588".repeat(nodeText.length);
+};
+
 const createMaskedNode = (node: HTMLElement) => {
   const newNode = document.createElement(node.tagName);
   newNode.className = browser.runtime.id;
@@ -63,9 +80,7 @@ const createMaskedNode = (node: HTMLElement) => {
   newNode.style.fontWeight = "unset";
   newNode.style.color = "unset";
   newNode.setAttribute("href", "javascript:void(0)");
-  newNode.innerHTML = ExpungedTags.includes(node.tagName.toLowerCase())
-    ? `<b>[${browser.i18n.getMessage("data_expunged")}]</b>`
-    : "\u2588".repeat(node.innerText.length);
+  newNode.innerHTML = createMaskedText(node);
 
   return newNode as MaskedHTMLElement;
 };

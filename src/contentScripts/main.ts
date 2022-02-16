@@ -1,8 +1,8 @@
 import { DefaultSelector } from "../const";
-import { when, getNodeText, getOptions } from "../logic";
-import { Condition, MaskedHTMLElement, Site, UrlType } from "../types";
+import { when, getNodeText, getTimeLeft } from "../logic";
+import { Condition, MaskedHTMLElement, Options, Site, UrlType } from "../types";
 
-const isTargetSite = (location: Location, sites: Site[]): boolean => {
+export const isTargetSite = (sites: Site[]): boolean => {
   const targets = sites
     .filter((site) => site.value)
     .concat([{ type: UrlType.URL, condition: Condition.StartsWith, value: "" }])
@@ -119,12 +119,8 @@ const maskTags = (
     });
 };
 
-export const censor = async () => {
-  const { muteWords, excludeWords, targetSelector, targetSites } = await getOptions();
-  if (!isTargetSite(window.location, targetSites || [])) {
-    return;
-  }
-
+export const censor = async (options: Omit<Options, "targetSites">) => {
+  const { muteWords, excludeWords, targetSelector } = options
   maskTags(
     muteWords || [],
     excludeWords || [],
@@ -146,4 +142,41 @@ export const decensor = () => {
     });
 
   decensor();
+};
+
+export const observe = (options: Options) => {
+  let timeout: NodeJS.Timeout | null = null;
+  const mutationObserver = new MutationObserver((mutations) => {
+    const isUnmask = mutations.some((mutation) =>
+      Array.from(mutation.removedNodes)
+        .map((node) => node as HTMLElement)
+        .some((node) => node?.classList?.contains(browser.runtime.id))
+    );
+    if (isUnmask) {
+      return;
+    }
+
+    if (!timeout) {
+      timeout = setTimeout(async () => {
+        await censor(options);
+        timeout = null;
+      }, 500);
+      return;
+    }
+
+    // Ignore >500ms for performance.
+    const timeLeft = getTimeLeft(timeout);
+    if (timeout !== null && timeLeft < 500) {
+      clearTimeout(timeout);
+      timeout = null;
+      return;
+    }
+  });
+
+  mutationObserver.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+
+  return mutationObserver;
 };

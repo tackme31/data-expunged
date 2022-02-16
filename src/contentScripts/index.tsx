@@ -1,47 +1,25 @@
-import { censor, decensor } from "./main";
-import { getTimeLeft } from "../logic";
+import { censor, decensor, isTargetSite, observe } from "./main";
+import { getOptions } from "../logic";
 
-// re-censor when options are updated.
-browser.storage.onChanged.addListener(async () => {
-  decensor();
-  await censor();
-});
+(async () => {
+  const options = await getOptions();
+  const enabled = isTargetSite(options.targetSites || []);
+  let observer: MutationObserver;
+  if (enabled) {
+    await censor(options);
+    observer = observe(options);
+  }
 
-// censor when dom is ready.
-(async () => await censor())();
+  browser.storage.onChanged.addListener(async () => {
+    observer?.disconnect();
 
-// censor when DOM is changed.
-(() => {
-  let timeout: NodeJS.Timeout | null = null;
-  const mutationObserver = new MutationObserver((mutations) => {
-    const isUnmask = mutations.some((mutation) =>
-      Array.from(mutation.removedNodes)
-        .map((node) => node as HTMLElement)
-        .some((node) => node?.classList?.contains(browser.runtime.id))
-    );
-    if (isUnmask) {
-      return;
+    const options = await getOptions();
+    const enabled = isTargetSite(options.targetSites || []);
+    if (enabled) {
+      await censor(options);
+      observer = observe(options);
+    } else {
+      decensor();
     }
-
-    if (!timeout) {
-      timeout = setTimeout(async () => {
-        await censor();
-        timeout = null;
-      }, 500);
-      return;
-    }
-
-    // Ignore >500ms for performance.
-    const timeLeft = getTimeLeft(timeout);
-    if (timeout !== null && timeLeft < 500) {
-      clearTimeout(timeout);
-      timeout = null;
-      return;
-    }
-  });
-
-  mutationObserver.observe(document.body, {
-    childList: true,
-    subtree: true,
   });
 })();

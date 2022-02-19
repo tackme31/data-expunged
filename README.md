@@ -41,4 +41,4 @@ In order to use this extension, you need to set some options. The option page ca
 **Addendum 2:** License  
 This software is released under the MIT License, see [LICENSE.txt](./LICENSE.txt). 
 
-[^1]: `div`, `blockquote`, `p`, `td`, `li` will be replaced with `[DATA EXPUNGED]` and others are blacked out (&#9608;&#9608;&#9608;).
+[^1]: `div`, `blockquote`, `p`, `td`, `li`, `dd` will be replaced with `[DATA EXPUNGED]` and others are blacked out (&#9608;&#9608;&#9608;).

@@ -56,7 +56,7 @@ const shouldBeMasked = (
 };
 
 const createMaskedText = (node: HTMLElement) => {
-  const expungedTags = ["div", "blockquote", "p", "td", "li"];
+  const expungedTags = ["div", "blockquote", "p", "td", "li", "dd"];
   if (expungedTags.includes(node.tagName.toLowerCase())) {
     return `<b>[${browser.i18n.getMessage("data_expunged")}]</b>`;
   }

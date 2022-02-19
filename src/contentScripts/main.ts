@@ -87,14 +87,21 @@ const createMaskedNode = (node: HTMLElement) => {
   return newNode as MaskedHTMLElement;
 };
 
+const getSelectorNodes = (selector: string) => {
+  try {
+    const nodes = document.querySelectorAll(selector);
+    return Array.from(nodes);
+  } catch {
+    return [];
+  }
+}
+
 const maskTags = (
   muteWords: string[],
   excludeWords: string[],
   selector: string
 ) => {
-  const targetNodes = document.querySelectorAll(selector);
-
-  Array.from(targetNodes)
+  getSelectorNodes(selector)
     .map((node) => node as HTMLElement)
     .filter((node) => shouldBeMasked(muteWords, excludeWords, node))
     .forEach((node) => {

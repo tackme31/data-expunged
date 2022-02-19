@@ -33,20 +33,34 @@ interface Props {
 const TargetWordList = ({ label, storageKey }: Props) => {
   const classes = useStyles();
   const [currentWord, setCurrentWord] = useState<string>("");
-  const [muteWords, setMuteWords] = useChromeStorage<string[]>(storageKey, []);
+  const [hasError, setHasError] = useState(false);
+  const [targetWords, setMuteWords] = useChromeStorage<string[]>(
+    storageKey,
+    []
+  );
 
+  const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const word = e.target.value;
+    setCurrentWord(word);
+
+    const duplicated = targetWords.includes(word.trim());
+    setHasError(duplicated);
+  };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const word = currentWord.trim();
+    if (hasError) {
+      return;
+    }
+
     if (e.key !== "Enter" || !word) {
       return;
     }
 
-    setMuteWords([...muteWords, word]);
+    setMuteWords([...targetWords, word]);
     setCurrentWord("");
   };
-
   const handleOnDelete = (word: string) => {
-    const newValue = muteWords.filter((muteWord) => muteWord !== word);
+    const newValue = targetWords.filter((muteWord) => muteWord !== word);
     setMuteWords(newValue);
   };
 
@@ -55,15 +69,17 @@ const TargetWordList = ({ label, storageKey }: Props) => {
       <TextField
         label={label}
         value={currentWord}
-        onChange={(e) => setCurrentWord(e.target.value)}
+        onChange={handleOnChange}
         onKeyDown={handleKeyDown}
         InputLabelProps={{
           className: classes.label,
         }}
+        helperText={hasError && browser.i18n.getMessage("already_exists")}
+        error={hasError}
         size="small"
       />
       <Paper component="ul" className={classes.root} elevation={0}>
-        {muteWords.map((word, i) => (
+        {targetWords.map((word, i) => (
           <Chip
             label={word}
             className={classes.chip}

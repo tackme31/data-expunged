@@ -21,7 +21,7 @@
     "message": "Words to exclude"
   },
   "target_selector": {
-    "message": "Target selector"
+    "message": "Target tags"
   },
   "target_sites": {
     "message": "Target sites"
@@ -78,7 +78,7 @@
     "message": "Export"
   },
   "selector": {
-    "message": "Selector"
+    "message": "CSS Selector"
   },
   "go_to_option_page": {
     "message": "Go to option page"
@@ -91,5 +91,11 @@
   },
   "add_to_hide_words": {
     "message": "Add to hide words"
+  },
+  "invalid_selector": {
+    "message": "Invalid selector."
+  },
+  "already_exists": {
+    "message": "Adready exists."
   }
 }

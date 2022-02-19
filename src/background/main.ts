@@ -3,9 +3,9 @@ import * as i18n from "./i18n";
 
 if (import.meta.hot) {
   // @ts-expect-error for background HMR
-  import('/@vite/client')
+  import("/@vite/client");
   // load latest content script
-  import('./contentScriptHMR')
+  import("./contentScriptHMR");
 }
 
 const menuItemId = "add-to-hide-words";
@@ -26,6 +26,10 @@ browser.contextMenus.onClicked.addListener(async (info) => {
   }
 
   const { muteWords } = await getOptions();
+  if (muteWords && muteWords.includes(info.selectionText)) {
+    return;
+  }
+
   browser.storage.local.set({
     muteWords: [...(muteWords || []), info.selectionText],
   });

@@ -78,7 +78,7 @@
     "message": "エクスポート"
   },
   "selector": {
-    "message": "セレクター"
+    "message": "CSSセレクター"
   },
   "go_to_option_page": {
     "message": "オプションページを開く"
@@ -91,5 +91,11 @@
   },
   "add_to_hide_words": {
     "message": "検閲対象に追加する"
+  },
+  "invalid_selector": {
+    "message": "不正なセレクターです。"
+  },
+  "already_exists": {
+    "message": "すでに存在しています。"
   }
 }
